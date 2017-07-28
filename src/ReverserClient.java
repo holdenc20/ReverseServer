@@ -23,9 +23,9 @@ public class ReverserClient {
 
 	private Scanner in;
 	private PrintWriter out;
-	Socket socket;
 	Scanner kb = new Scanner(System.in);
 
+	//Create a member variable for your Socket.
 
 	public boolean update() {
 		out.println(kb.nextLine());
@@ -52,41 +52,37 @@ public class ReverserClient {
 		String serverAddress = JOptionPane.showInputDialog(null, "Enter IP Address of the Server:",
 				"Welcome to the Capitalization Program", JOptionPane.QUESTION_MESSAGE);
 
-		// Make connection and initialize streams
-		socket = new Socket(serverAddress, 9898);
-		in = new Scanner(socket.getInputStream());
-		// in = new Scanner( socket.getInputStream());
-		out = new PrintWriter(socket.getOutputStream(), true);
+		//Initialize your socket and pass in the serverAddress and port number
 
-		// Consume the initial welcoming messages from the server
-		for (int i = 0; i < 3; i++) {
-			System.out.println(in.nextLine() + "\n");
-		}
+		
+		//initialize your Scanner and pass in your socket's input stream.(Hint: getter)
+
+
+		//initialize your PrintWriter and pass in your socket's output stream.(Hint: getter)
+		
+
+		
 	}
 
 	void close() {
-		try {
-			socket.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//Close your Socket.
+		
+		
+		
 	}
 
 	/**
 	 * Runs the client application.
 	 */
 	public static void main(String[] args) throws Exception {
-		ReverserClient client = new ReverserClient();
+		//Instantiate a new ReverserClient();
 
-		/*
-		 * client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 * client.frame.pack(); client.frame.setVisible(true);
-		 */
-		client.connectToServer();
-		while (client.update()) {
 
-		}
-		client.close();
+		//call the connectToServer Method
+
+		
+		//continuously call the client's update method until it is ready to close.
+		
+		//Call the close method
 	}
 }
