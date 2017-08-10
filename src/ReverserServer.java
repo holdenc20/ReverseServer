@@ -1,5 +1,7 @@
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -27,6 +29,8 @@ public class ReverserServer extends Thread {
 	 */
 
 	// **** 1. Create member variables for your socket and client number;
+	Socket socket;
+	int clientNumber = 0;
 
 	/**
 	 * Application method to run the server runs in an infinite loop listening
@@ -38,39 +42,51 @@ public class ReverserServer extends Thread {
 
 	// 2 ****. create a constructor for your ReverserServer that takes in a
 	// Socket an int for your client number
-
+	ReverserServer(Socket socket, int client) {
+		this.socket = socket;
+		this.clientNumber = client;
+		log("New connection with client# " + clientNumber + " at " + socket);
+	}
 
 	public void run() {
+		try {
 
-		// Decorate the streams so we can send characters
-		// and not just bytes. Ensure output is flushed
-		// after every newline.
+			// Decorate the streams so we can send characters
+			// and not just bytes. Ensure output is flushed
+			// after every newline.
 
-		// 3. Create a Scanner and pass in your socket's inputStream. (hint:
-		// it's a getter)
+			// 3. Create a Scanner and pass in your socket's inputStream. (hint:
+			// it's a getter)
+			Scanner in = new Scanner(socket.getInputStream());
 
-		// 4. Create a PrintWriter 'out', and pass it your socket's output
-		// stream.
-		PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+			// 4. Create a PrintWriter 'out', and pass it your socket's output
+			// stream.
+			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-		// 5. Use your PrintWriter Send a welcome message to the client.
+			// 5. Use your PrintWriter Send a welcome message to the client.
+			out.println("Hello, you are client #" + clientNumber + ".");
+			out.println("Enter a line with only a period to quit\n");
 
-		while (true) {
-			// 6. read each line using your BufferedReader. This is the user
-			// input
-			String input = in.nextLine();
-
-			// 7. break out of the loop if the user enters a certain word or
-			// it returns null.
-			if (input == null || input.equals(".")) {
-				break;
+			while (true) {
+				// 6. read each line using your BufferedReader. This is the user
+				// input
+					String input = in.nextLine();
+					if (input == null || input.equals(".")) {
+						break;
+					}
+					out.println(input.toUpperCase());
+				}
+		} catch (IOException e) {
+			log("Error handling client# " + clientNumber + ": " + e);
+		} finally {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				log("Couldn't close a socket, what's going on?");
 			}
-			// 8. Use your Printwriter to set back a capitalized word
-			out.println(input.toUpperCase());
-
-			// 9. if any exceptions occur, close your socket.
-
+			log("Connection with client# " + clientNumber + " closed");
 		}
+
 	}
 
 	/**
@@ -81,24 +97,32 @@ public class ReverserServer extends Thread {
 		System.out.println("The capitalization server is running.");
 
 		// 10. Create a variable to hold a client number
-
+		int client = 0;
 
 		// 11. Create a SeverSocket on port 9898
-		
+		ServerSocket listener = new ServerSocket(3000);
 		try {
 			while (true) {
 				// 12. call the accept method on your ServerSocket and store it
 				// in a Socket Variable
+				Socket socket = listener.accept();
 
-				// 13. Fill in the Reverser class below.
-
-				// 14. create an instance of a ReverserServer and pass it your listener
+				// 14. create an instance of a ReverserServer and pass it your
+				// listener
 				// and client number.
+				ReverserServer rc = new ReverserServer(socket, client);
 
 				// 15. Start your Reverser.
+				rc.start();
 			}
 		} finally {
 			// 16. Don't forget to close your ServerSocket!
 
 		}
 	}
+
+	private void log(String message) {
+		System.out.println(message);
+	}
+
+}

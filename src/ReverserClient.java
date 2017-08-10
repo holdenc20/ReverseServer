@@ -30,11 +30,15 @@ public class ReverserClient {
 	public boolean update() {
 		out.println(kb.nextLine());
 		String response;
-			response = in.nextLine();
-			if (response == null || response.equals("")) {
-				return false;
-			}
-		System.out.print(response);
+		try {
+            response = in.nextLine();
+            if (response == null || response.equals("")) {
+                  System.exit(0);
+              }
+        } catch (Exception ex) {
+               response = "Error: " + ex;
+        }
+        System.out.println(response);
 
 		return true;
 	}
@@ -53,36 +57,38 @@ public class ReverserClient {
 				"Welcome to the Capitalization Program", JOptionPane.QUESTION_MESSAGE);
 
 		//Initialize your socket and pass in the serverAddress and port number
-
+		Socket socket = new Socket(serverAddress, 3000);
 		
 		//initialize your Scanner and pass in your socket's input stream.(Hint: getter)
-
+		in = new Scanner(socket.getInputStream());
 
 		//initialize your PrintWriter and pass in your socket's output stream.(Hint: getter)
-		
+		out = new PrintWriter(socket.getOutputStream(), true);
 
-		
+		for (int i = 0; i < 3; i++) {
+			System.out.println(in.nextLine() + "\n");
+        }
+
 	}
 
-	void close() {
-		//Close your Socket.
+	
 		
-		
-		
-	}
+	
 
 	/**
 	 * Runs the client application.
 	 */
 	public static void main(String[] args) throws Exception {
 		//Instantiate a new ReverserClient();
-
+		ReverserClient rx = new ReverserClient();
 
 		//call the connectToServer Method
-
+		rx.connectToServer();
 		
 		//continuously call the client's update method until it is ready to close.
-		
-		//Call the close method
+		while(rx.update()){
+			
+		}
+
 	}
 }
