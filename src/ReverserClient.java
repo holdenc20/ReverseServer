@@ -57,8 +57,7 @@ public class ReverserClient {
 				"Welcome to the Capitalization Program", JOptionPane.QUESTION_MESSAGE);
 
 		//Initialize your socket and pass in the serverAddress and port number
-		Socket socket = new Socket(serverAddress, 3000);
-		
+		Socket socket = new Socket(serverAddress, 49653);
 		//initialize your Scanner and pass in your socket's input stream.(Hint: getter)
 		in = new Scanner(socket.getInputStream());
 

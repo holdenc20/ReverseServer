@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 /**
  * A server program which accepts requests from clients to capitalize strings.
  * When clients connect, a new thread is started to handle an interactive dialog
@@ -52,6 +54,7 @@ public class ReverserServer extends Thread {
 		this.socket = socket;
 		this.clientNumber = client;
 		log("New connection with client# " + clientNumber + " at " + socket);
+		JOptionPane.showMessageDialog(null, this.socket.getPort());
 	}
 
 	public void run() {
@@ -72,7 +75,7 @@ public class ReverserServer extends Thread {
 			// 5. Use your PrintWriter Send a welcome message to the client.
 			out.println("Hello, you are client #" + clientNumber + ".");
 			out.println("Enter a line with only a period to quit\n");
-
+			
 			while (true) {
 				// 6. read each line using your BufferedReader. This is the user
 				// input
@@ -117,6 +120,7 @@ public class ReverserServer extends Thread {
 				// listener
 				// and client number.
 				ReverserServer rc = new ReverserServer(socket, client);
+				
 
 				// 15. Start your Reverser.
 				rc.start();
