@@ -18,6 +18,12 @@ import java.util.Scanner;
  * generally will shut it down.
  */
 public class ReverserServer extends Thread {
+	
+	
+	
+	//2602:306:b8f6:2ab0:49f2:8987:2981:bfa9
+	
+	
 	/**
 	 * A private thread to handle capitalization requests on a particular
 	 * socket. The client terminates the dialogue by sending a single line
@@ -100,7 +106,7 @@ public class ReverserServer extends Thread {
 		int client = 0;
 
 		// 11. Create a SeverSocket on port 9898
-		ServerSocket listener = new ServerSocket(3000);
+		ServerSocket listener = new ServerSocket(9898);
 		try {
 			while (true) {
 				// 12. call the accept method on your ServerSocket and store it
